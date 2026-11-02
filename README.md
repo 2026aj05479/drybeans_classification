@@ -66,4 +66,7 @@ The following five classification models are used:
 
 ## Overall, Winner for the Dataset
  **Support Vector Machine (SVM)** gives the best overall result for this dataset. It has the highest accuracy, precision, recall, F1 and MCC. Logistic Regression has a slightly higher AUC, but SVM performs better in most of the evaluation metrics.
- Logistic Regression and KNN also gave good results, with accuracies of 91.92% and 91.55% respectively, and both showed balanced performance across the evaluation metrics. 
+ Logistic Regression and KNN also gave good results, with accuracies of 91.92% and 91.55% respectively, and both showed balanced performance across the evaluation metrics.
+
+## Live Streamlit Application
+https://drybeansclassification.streamlit.app/
