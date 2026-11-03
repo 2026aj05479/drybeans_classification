@@ -7,11 +7,47 @@ from sklearn.metrics import accuracy_score, roc_auc_score, precision_score, reca
 
 TARGET_COLUMN = "Class"
 
-st.set_page_config(page_title="Dry Bean Classification")
-st.title("Dry Bean Classification")
-st.write("This application evaluates five trained machine learning models for Dry Bean classification.")
-st.write("Upload the test CSV file and select a model to view the evaluation results.")
+st.markdown(
+    """
+    <div style="text-align: center;">
+        <h1>🫘 Dry Bean Classification</h1>
+        <p style="font-size:18px; color:gray;">
+            Machine Learning Model Evaluation
+        </p>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+st.write("This application evaluates five trained machine learning models for classifying seven types of dry beans.")
 
+with st.expander("About the Models"):
+    st.write("""
+    The following five classification models are evaluated:
+
+    - Logistic Regression
+    - Decision Tree
+    - K-Nearest Neighbor (KNN)
+    - Gaussian Naive Bayes
+    - Support Vector Machine (SVM)
+    """)
+
+    st.write(
+        "All models were trained using the same Dry Bean dataset "
+        "and evaluated using the uploaded test data."
+    )
+
+with st.expander("About the Dataset"):
+    st.write(
+        "The Dry Bean dataset contains 16 numerical input features "
+        "used to classify beans into seven different classes."
+    )
+
+    st.write(
+        "Classes: BARBUNYA (0), BOMBAY (1), CALI (2), DERMASON (3), "
+        "HOROZ (4), SEKER (5) and SIRA (6)."
+    )
+
+st.write("Upload the test CSV file and select a model to view the evaluation results.")
 
 MODEL_FILES = {
   "Logistic Regression": "model/logistic_regression.joblib",
@@ -34,7 +70,7 @@ else:
     st.subheader("Uploaded Test Data")
     st.write("Number of rows:", test_data.shape[0])
     st.write("Number of columns:", test_data.shape[1])
-    st.dataframe(test_data.head(), use_container_width=True)
+    st.dataframe(test_data.head(), width='stretch')
     
     if TARGET_COLUMN not in test_data.columns:
         st.error("The uploaded CSV must contain the target column 'Class'.")
@@ -87,13 +123,13 @@ else:
     class_labels = list(model.classes_)
     display_labels = [CLASS_NAMES[label] for label in class_labels]
     
-    confusion_matrix__overall = confusion_matrix(y_test, y_pred, labels=class_labels)
-    confusion_matrix__overall_df = pd.DataFrame(
-        confusion_matrix__overall,
-        index=[f"Actual {name}" for name in display_labels],
-        columns=[f"Predicted {name}" for name in display_labels])
+    confusion_matrix_overall = confusion_matrix(y_test, y_pred, labels=class_labels)
+    confusion_matrix_overall_df = pd.DataFrame(
+        confusion_matrix_overall,
+        index=[f"Actual ({name})" for name in display_labels],
+        columns=[f"Predicted ({name})" for name in display_labels])
     
-    st.dataframe(confusion_matrix__overall_df, use_container_width=True)
+    st.dataframe(confusion_matrix_overall_df, width='stretch')
     st.subheader("Class-wise Confusion Matrix")
     selected_class_name = st.selectbox("Select Bean Class", options=list(CLASS_NAMES.values()))
     selected_class = next(label for label, name in CLASS_NAMES.items() if name == selected_class_name)
@@ -101,10 +137,10 @@ else:
     y_test_binary = (y_test == selected_class).astype(int)    
     y_pred_binary = (y_pred == selected_class).astype(int)
     
-    confusion_matrix__class = confusion_matrix(y_test_binary, y_pred_binary)    
-    tn, fp, fn, tp = confusion_matrix__class.ravel()
+    confusion_matrix_class = confusion_matrix(y_test_binary, y_pred_binary)    
+    tn, fp, fn, tp = confusion_matrix_class.ravel()
     
-    confusion_matrix__class_df = pd.DataFrame(
+    confusion_matrix_class_df = pd.DataFrame(
         [
             [tn, fp],
             [fn, tp]
@@ -119,12 +155,12 @@ else:
         ]
     )
     
-    st.dataframe(confusion_matrix__class_df, use_container_width=True)    
-    confusion_matrix__cols = st.columns(4)
-    confusion_matrix__cols[0].metric("True Positive", tp)
-    confusion_matrix__cols[1].metric("False Positive", fp)    
-    confusion_matrix__cols[2].metric("False Negative", fn)    
-    confusion_matrix__cols[3].metric("True Negative", tn)
+    st.dataframe(confusion_matrix_class_df, width="stretch")    
+    confusion_matrix_cols = st.columns(4)
+    confusion_matrix_cols[0].metric("True Positive", tp)
+    confusion_matrix_cols[1].metric("False Positive", fp)    
+    confusion_matrix_cols[2].metric("False Negative", fn)    
+    confusion_matrix_cols[3].metric("True Negative", tn)
 
     class_precision = precision_score(y_test_binary, y_pred_binary, zero_division=0)    
     class_recall = recall_score(y_test_binary, y_pred_binary, zero_division=0)  
@@ -134,3 +170,5 @@ else:
     metric_cols[0].metric("Precision", f"{class_precision:.4f}")    
     metric_cols[1].metric("Recall", f"{class_recall:.4f}")
     metric_cols[2].metric("F1 Score", f"{class_f1:.4f}")
+    
+    
