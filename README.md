@@ -1,5 +1,4 @@
-# drybeans_classification
-Dry Bean Classification using Machine Learning Models
+# Dry Bean Classification using Machine Learning Models
 
 ## A. Problem Statement
 
@@ -21,6 +20,18 @@ There are seven bean classes in the dataset:
 - SEKER
 - SIRA
 
+The target classes were encoded as:
+
+|Class|Encoded Value|
+|---|---:|
+|BARBUNYA|0|
+|BOMBAY|1|
+|CALI|2|
+|DERMASON|3|
+|HOROZ|4|
+|SEKER|5|
+|SIRA|6|
+
 Dataset details:
 
 - Number of samples: 13611
@@ -34,7 +45,32 @@ Dataset details:
 	- Number of input features: 16 , 
 - Problem type: Multiclass classification
 
-## C. Models Used
+## C. Github Repository 
+
+### Project Structure
+
+### Project File Details
+
+- `app.py` – Streamlit application used to evaluate the trained machine learning models.
+- `ML_Assignment2.ipynb` – Jupyter Notebook containing data preprocessing, model training, evaluation, and comparison.
+- `README.md` – Contains the project details, dataset description, model results, observations, and deployment information.
+- `requirements.txt` – Contains the Python packages required to run the project and Streamlit application.
+- `test_data.csv` – Test dataset used to evaluate the saved models through the Streamlit application.
+- `DryBeanDataset/Dry_Bean_Dataset.xlsx` – Original Dry Bean dataset used for model development.
+
+#### Saved Models
+
+The `model/` directory contains all five trained classification models:
+
+- `logistic_regression.joblib` – Trained Logistic Regression model.
+- `decision_tree.joblib` – Trained Decision Tree model.
+- `knn.joblib` – Trained K-Nearest Neighbors (KNN) model.
+- `naive_bayes.joblib` – Trained Gaussian Naive Bayes model.
+- `svm.joblib` – Trained Support Vector Machine (SVM) model.
+
+https://github.com/2026aj05479/drybeans_classification
+
+## D. Models Used
 
 The following five classification models are used:
 
@@ -54,7 +90,7 @@ The following five classification models are used:
 | Naive Bayes | 0.763012 | 0.964352 | 0.764673 | 0.763012 | 0.760651 | 0.714296 |
 | Support Vector Machine | 0.921004 | 0.993315 | 0.921411 | 0.921004 | 0.921078 | 0.904471 |
 
-## Model Performance Observations
+### Model Performance Observations
 
 | ML Model Name | Observation about model performance |
 |---|---|
@@ -64,9 +100,33 @@ The following five classification models are used:
 | Naive Bayes | Naive Bayes achieved 76.30% accuracy, which is the lowest among the five models. F1 and MCC are also lower compared to the other models. |
 | Support Vector Machine | SVM achieved the highest accuracy of 92.10%. It also has the highest precision, recall, F1 and MCC among the five models. |
 
-## Overall, Winner for the Dataset
+### Overall, Winner for the Dataset
  **Support Vector Machine (SVM)** gives the best overall result for this dataset. It has the highest accuracy, precision, recall, F1 and MCC. Logistic Regression has a slightly higher AUC, but SVM performs better in most of the evaluation metrics.
  Logistic Regression and KNN also gave good results, with accuracies of 91.92% and 91.55% respectively, and both showed balanced performance across the evaluation metrics.
 
-## Live Streamlit Application
+## E. Streamlit Application
+
+A Streamlit application was developed to evaluate the trained models.
+
+The application provides the following features:
+
+- Upload test data in CSV format
+- Select one of the five trained machine learning models
+- Evaluate the uploaded test data without retraining the model
+- Displays Accuracy
+- Display AUC
+- Display Precision
+- Display Recall
+- Display F1 Score
+- Display MCC
+- Display the overall multiclass confusion matrix
+- Select an individual bean class for One-vs-Rest evaluation
+- Display class-wise confusion matrix
+- Display True Positive, False Positive, False Negative and True Negative values
+- Display class-wise Precision, Recall and F1 Score
+
+## F. Live Streamlit Application URL
+
 https://drybeansclassification.streamlit.app/
+
+
